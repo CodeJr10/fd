@@ -15,8 +15,15 @@ const Dashboard = () => {
 
   // Load managers from localStorage on component mount
   useEffect(() => {
-    const storedManagers = JSON.parse(localStorage.getItem("managers")) || [];
-    setManagers(storedManagers);
+    try {
+      const storedManagers = JSON.parse(
+        localStorage.getItem("managers") || "[]"
+      );
+      setManagers(storedManagers);
+    } catch (error) {
+      console.error("Error loading managers from localStorage:", error);
+      setManagers([]); // Default to empty array on error
+    }
   }, []);
 
   // Update localStorage whenever managers change
